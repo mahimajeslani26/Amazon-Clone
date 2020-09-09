@@ -6,12 +6,6 @@ import { useStateValue } from './StateProvider';
 function Subtotal() {
   const [{ cart }, dispatch] = useStateValue();
 
-  let total = 0.0;
-  cart.map((item) => {
-    console.log(item.price);
-    total += item.price;
-  });
-
   return (
     <div className='subtotal'>
       <CurrencyFormat
@@ -28,7 +22,9 @@ function Subtotal() {
           </>
         )}
         decimalScale={2}
-        value={total}
+        value={cart.reduce((acc, curr, ind, arr) => {
+          return acc + curr.price;
+        }, 0.0)}
         displayType={'text'}
         thousandSeperator={true}
         prefix={'$'}

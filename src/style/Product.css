@@ -12,6 +12,17 @@
   min-width: 100px;
 }
 
+.product:hover {
+  transform: scale3d(1.05, 1.05, 2);
+  transition-duration: 0.5s;
+  box-shadow: 1px 1px 10px 2px #888888;
+}
+
+.product:hover p button img {
+  transform: scale3d(0.952, 0.952, 2);
+  transition-duration: 0.5s;
+}
+
 .product > img {
   max-height: 200px;
   width: 100%;

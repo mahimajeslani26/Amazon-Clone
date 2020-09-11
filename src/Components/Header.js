@@ -1,11 +1,19 @@
 import React from 'react';
-import './Header.css';
+import '../style/Header.css';
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { Link } from 'react-router-dom';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../StateProvider';
+import { auth } from '../firebase';
+import { getCartSize } from '../reducer';
+
 function Header() {
-  const [{ cart, dispatch }] = useStateValue();
+  const [{ user, cart }, dispatch] = useStateValue();
+  const handleAuthentication = () => {
+    if (user) {
+      auth.signOut();
+    }
+  };
 
   return (
     <div className='header'>
@@ -22,10 +30,17 @@ function Header() {
         <SearchIcon className='header__searchIcon' />
       </div>
       <div className='header__nav'>
-        <div className='header__option'>
-          <span className='header__optionLineOne'>Hello, Sign In</span>
-          <span className='header__optionLineTwo'>Account</span>
-        </div>
+        <Link to={!user && '/login'}>
+          <div onClick={handleAuthentication} className='header__option'>
+            <span className='header__optionLineOne'>
+              Hello, {user ? user?.email : 'Sign In'}
+            </span>
+            <span className='header__optionLineTwo'>
+              {user ? 'Sign-out' : 'Account'}
+            </span>
+          </div>
+        </Link>
+
         <div className='header__option'>
           <span className='header__optionLineOne'>Returns</span>
           <span className='header__optionLineTwo'>Orders</span>
@@ -38,7 +53,7 @@ function Header() {
           <div className='header__optionBasket'>
             <ShoppingCartIcon />
             <span className='header__optionLineTwo header__basketCount'>
-              {cart.length}
+              {getCartSize(cart)}
             </span>
           </div>
         </Link>

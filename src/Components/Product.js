@@ -1,23 +1,40 @@
 import React from 'react';
-import './Product.css';
+import '../style/Product.css';
 import StarRateIcon from '@material-ui/icons/StarRate';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '../StateProvider';
 
 function Product({ id, title, price, image, rating }) {
   const [{ cart }, dispatch] = useStateValue();
 
-  console.log('your cart  contains :', cart);
   const addToCart = () => {
-    dispatch({
-      type: 'ADD_TO_CART',
-      item: {
-        id: id,
-        title: title,
-        image: image,
-        price: price,
-        rating: rating,
-      },
-    });
+    //there are two possibilities .
+    // product already exists in the cart so increase its quantity.
+    // product is new to the cart so ad it to cart with 1 qauntity.
+
+    const index = cart.findIndex((item) => item.id === id);
+    if (index < 0) {
+      console.log('adding');
+      dispatch({
+        type: 'ADD_TO_CART',
+        item: {
+          id: id,
+          qty: 1,
+          title: title,
+          image: image,
+          price: price,
+          rating: rating,
+        },
+      });
+    } else {
+      console.log('editing');
+      dispatch({
+        type: 'EDIT_QUANTITY',
+        item: {
+          id: id,
+          qty: cart[index].qty + 1,
+        },
+      });
+    }
   };
 
   return (

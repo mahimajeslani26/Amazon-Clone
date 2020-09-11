@@ -56,7 +56,6 @@ const CheckoutProduct = forwardRef(
                 </p>
               ))}
           </div>
-          <button onClick={removeFromCart}>Remove from Cart</button>
           <div className='checkoutProduct__quantity'>
             <label for='cars'>Qty:</label>
             <select
@@ -71,6 +70,7 @@ const CheckoutProduct = forwardRef(
                 ))}
             </select>
           </div>
+          <button onClick={removeFromCart}>Remove from Cart</button>
         </div>
       </div>
     );

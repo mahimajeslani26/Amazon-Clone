@@ -29,6 +29,7 @@ function Checkout() {
                 price={item.price}
                 image={item.image}
                 rating={item.rating}
+                showSummary={false}
               />
             ))}
           </FlipMove>

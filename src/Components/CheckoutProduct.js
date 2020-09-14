@@ -5,7 +5,7 @@ import { useStateValue } from '../StateProvider';
 import FlipMove from 'react-flip-move';
 
 const CheckoutProduct = forwardRef(
-  ({ id, qty, image, title, price, rating }, ref) => {
+  ({ id, qty, image, title, price, rating, showSummary }, ref) => {
     const [{ cart }, dispatch] = useStateValue();
 
     const removeFromCart = () => {
@@ -44,7 +44,7 @@ const CheckoutProduct = forwardRef(
         <div className='checkoutProduct__info'>
           <p className='checkoutProduct__title'>{title}</p>
           <p className='checkoutProduct__price'>
-            <small>$</small>
+            <small>₹</small>
             <strong>{price}</strong>
           </p>
           <div className='checkoutProduct__rating'>
@@ -66,11 +66,15 @@ const CheckoutProduct = forwardRef(
               {Array(10)
                 .fill()
                 .map((_, i) => (
-                  <option value={i}>{i}</option>
+                  <option disabled={showSummary} value={i}>
+                    {i}
+                  </option>
                 ))}
             </select>
           </div>
-          <button onClick={removeFromCart}>Remove from Cart</button>
+          {!showSummary && (
+            <button onClick={removeFromCart}>Remove from Cart</button>
+          )}
         </div>
       </div>
     );

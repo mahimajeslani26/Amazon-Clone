@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom';
 import { useStateValue } from '../StateProvider';
 import { auth } from '../firebase';
 import { getCartSize } from '../reducer';
+import { db } from '../firebase';
 
 function Header() {
   const [{ user, cart }, dispatch] = useStateValue();
-  const handleAuthentication = () => {
+  const handleAuthentication = async (e) => {
     if (user) {
+      //before signing out if cart is not empty add cart to db
+
       auth.signOut();
     }
   };
@@ -41,10 +44,12 @@ function Header() {
           </div>
         </Link>
 
-        <div className='header__option'>
-          <span className='header__optionLineOne'>Returns</span>
-          <span className='header__optionLineTwo'>Orders</span>
-        </div>
+        <Link to='/orders'>
+          <div className='header__option'>
+            <span className='header__optionLineOne'>Returns</span>
+            <span className='header__optionLineTwo'>Orders</span>
+          </div>
+        </Link>
         <div className='header__option'>
           <span className='header__optionLineOne'>Try</span>
           <span className='header__optionLineTwo'>Prime</span>

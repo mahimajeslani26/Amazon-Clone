@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import '../style/Login.css';
 import { Link, useHistory } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { useStateValue } from '../StateProvider';
 
 function Login() {
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [{ cart }, dispatch] = useStateValue();
+
   const signIn = (e) => {
     e.preventDefault();
     auth
@@ -23,7 +26,11 @@ function Login() {
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
         console.log(auth);
+
         if (auth) {
+          db.collection('users').doc(auth.user?.uid).set({
+            cart: [],
+          });
           history.push('/');
         }
       })

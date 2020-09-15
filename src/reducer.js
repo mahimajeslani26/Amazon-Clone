@@ -46,9 +46,13 @@ const reducer = (state, action) => {
       };
 
     case 'SET_USER':
+      console.log('inside set user reducer action');
+      console.log(action.user);
+      console.log(action.cart);
       return {
         ...state,
         user: action.user,
+        cart: action.cart,
       };
 
     case 'EMPTY_CART': {

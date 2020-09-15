@@ -5,12 +5,11 @@ import Home from './Components/Home';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Checkout from './Components/Checkout';
 import Login from './Components/Login';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 import { useStateValue } from './StateProvider';
 import Payment from './Components/Payment';
 import { Elements } from '@stripe/react-stripe-js';
 import Orders from './Components/Orders';
-
 import { loadStripe } from '@stripe/stripe-js';
 
 const promise = loadStripe(
@@ -23,16 +22,27 @@ function App() {
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       console.log('THE USER is >>> ', authUser);
+
       if (authUser) {
-        dispatch({
-          type: 'SET_USER',
-          user: authUser,
-        });
+        db.collection('users')
+          .doc(authUser.uid)
+          .get()
+          .then((doc) => {
+            return doc.data().cart;
+          })
+          .then((cart) =>
+            dispatch({
+              type: 'SET_USER',
+              user: authUser,
+              cart: cart,
+            })
+          );
       } else {
         //the user is logged out.
         dispatch({
           type: 'SET_USER',
           user: null,
+          cart: [],
         });
       }
     });

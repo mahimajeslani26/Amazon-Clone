@@ -10,11 +10,16 @@ import { db } from '../firebase';
 
 function Header() {
   const [{ user, cart }, dispatch] = useStateValue();
+
   const handleAuthentication = async (e) => {
     if (user) {
       //before signing out if cart is not empty add cart to db
 
-      auth.signOut();
+      auth.signOut().then(() =>
+        db.collection('users').doc(user?.uid).set({
+          cart: cart,
+        })
+      );
     }
   };
 

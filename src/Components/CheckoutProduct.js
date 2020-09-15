@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import '../style/CheckoutProduct.css';
 import StarRateIcon from '@material-ui/icons/StarRate';
 import { useStateValue } from '../StateProvider';
-import FlipMove from 'react-flip-move';
+import { Button } from '@material-ui/core';
 
 const CheckoutProduct = forwardRef(
   ({ id, qty, image, title, price, rating, showSummary }, ref) => {

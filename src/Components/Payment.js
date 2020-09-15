@@ -7,7 +7,6 @@ import { getCartSize, getCartTotal } from '../reducer';
 import { Link, useHistory } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
-import { AccordionSummary } from '@material-ui/core';
 import { db } from '../firebase';
 
 import axios from '../axios';
